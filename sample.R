@@ -1,4 +1,5 @@
 setwd("/Users/Rajvi/Desktop/UN Armed Conflicts/")
+#make sure that rcharts is selected
 vcData = read.csv("asd.csv", header = TRUE)
 library(knitr)
 kable(head(vcData[,1:9]), format = 'html', table.attr = "class=nofluid")
@@ -43,10 +44,10 @@ options(rcharts.cdn = TRUE)
 map <- Datamaps$new()
 map$set(
   dom = 'chart_1',
-  scope = 'usa',
+  scope = 'world',
   fills = fills,
   data = dat2[[1]],
   legend = TRUE,
-  labels = TRUE
+  labels = FALSE
 )
 map
