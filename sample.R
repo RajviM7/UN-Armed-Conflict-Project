@@ -1,15 +1,16 @@
 setwd("/Users/Rajvi/Desktop/UN Armed Conflicts/")
 #make sure that rcharts is selected
-vcData = read.csv("asd.csv", header = TRUE)
+library(countrycode)
+vcData = read.csv("CountrySample.csv", header = TRUE)
 library(knitr)
 kable(head(vcData[,1:9]), format = 'html', table.attr = "class=nofluid")
 library(reshape2)
 datm <- melt(vcData, 'Year', 
-             variable.name = 'State',
+             variable.name = 'Country',
              value.name = 'Crime'
 )
 datm2 <- transform(datm,
-                   State = state.abb[match(as.character(State), state.name)],
+                   Country = country.abb[match(as.character(Country), country.name)],
                    fillKey = cut(Crime, quantile(Crime, seq(0, 1, 1/5)), labels = LETTERS[1:5]),
                    Year = as.numeric(substr(Year, 1, 4))
 )
@@ -20,7 +21,7 @@ fills = setNames(
 library(plyr); library(rMaps); library(rMaps)
 dat2 <- dlply(na.omit(datm2), "Year", function(x){
   y = toJSONArray2(x, json = F)
-  names(y) = lapply(y, '[[', 'State')
+  names(y) = lapply(y, '[[', 'Country')
   return(y)
 })
 # datm$fillKey<- "E"
